@@ -11,9 +11,9 @@ void create_board() {
     printf("Create the starting board by filling in the board.\n");
     printf("Put '0' where the cell should be empty to be filled by user in the game\n");
 
-    for(int i = 0; i < N; i++) {
-        for(int j = 0; j < N; j++) {
-            scanf("%d", &board[i][j]);
+    for(int row = 0; row < N; row++) {
+        for(int col = 0; col < N; col++) {
+            scanf("%d", &board[row][col]);
         }
     }
 }
@@ -22,9 +22,9 @@ void create_board() {
 void show_board() {
     printf("The board you have created looks like this:\n");
 
-    for(int i = 0; i < N; i++) {
-        for(int j = 0; j < N; j++) {
-            printf("%d  ", board[i][j]);
+    for(int row = 0; row < N; row++) {
+        for(int col = 0; col < N; col++) {
+            printf("%d  ", board[row][col]);
         }
         printf("\n");
     }
@@ -73,6 +73,50 @@ bool tryCandidateNumbers(int row, int col, int num) {
 
 //Need a recursive function for checking candidate numbers
 // but need to store the candidate number grids somehow??? 
+// i don't think i gave this a base case so please help idk 
+bool solveSudoku() {
+    for (int row = 0; row < N; row++) {
+        for (int col = 0; col < N; col++){
+            //Base case: if the cell is empty (or base case is if the number doesn't lead to a solution??)
+            if (board[row][col] == 0) {
+                for (int num = 1; num <= 9; num++) {
+                    //try placing a number (num is candidate numbers to try)
+                    if(tryCandidateNumbers(row, col, num)) {
+                        board[row][col] = num;
+
+                        //i don't know if the recursion goes here or out of the for loop but i think it's here
+                        //I think recursive step has to be here because if the above step returns true, you move on
+                        //and have to continuously solve the board (i.e. move to next cell and keep going)
+                        //so placing the recursive step here will continuously try to solve the next cell
+                        if (solveSudoku()) {
+                            return true;
+                        }
+
+                        //if the recursive step returns false that means there's no solution for that cell
+                        //so then you backtrack
+                        board[row][col] = 0;
+                    }
+                }
+
+                //Backtrack one more step if all the above return false. I think this only works if there is no
+                //solution to the board OR the board is fully solved?
+                return false;
+            }
+        }
+    }
+    //Last step: no empty cells meaning the board is solved
+    return true;
+}
+
+//Function to print the solved board
+void printSolvedBoard() {
+    for (int row = 0; row < N; row++) {
+        for (int col = 0; col < N; col++) {
+            printf("%d  ", board[row][col]);
+        }
+        printf("\n");
+    }
+}
 
 
 //Main creates the board and shows the board
@@ -81,5 +125,8 @@ bool tryCandidateNumbers(int row, int col, int num) {
 int main() {
     create_board();
     show_board();
+
+    solveSudoku();
+    printboard();
     return 0;
 }
