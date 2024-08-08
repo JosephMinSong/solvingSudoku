@@ -27,6 +27,7 @@ void show_board() {
             printf("%d  ", board[row][col]);
         }
         printf("\n");
+        printf("\n");
     }
 }
 
@@ -110,6 +111,8 @@ bool solveSudoku() {
 
 //Function to print the solved board
 void printSolvedBoard() {
+    printf("Here is your solved board!\n");
+
     for (int row = 0; row < N; row++) {
         for (int col = 0; col < N; col++) {
             printf("%d  ", board[row][col]);
@@ -125,8 +128,8 @@ void printSolvedBoard() {
 int main() {
     create_board();
     show_board();
-
-    solveSudoku();
-    printboard();
+    if(solveSudoku()) {
+        printSolvedBoard();
+    }
     return 0;
 }
