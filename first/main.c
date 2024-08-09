@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "create_board.h"
+#include <stdlib.h>
+#include <time.h>
 #include "solve.h"
 
 int main()
@@ -10,7 +12,11 @@ int main()
 
     create_board(board, num_rows, num_cols);
     show_board(board, num_rows, num_cols);
+    clock_t start, end;
+    start = clock();
     prepareCandidates(board);
     solveSudoku(board);
+    end = clock();
+    printf("Time taken: %.9f seconds\n", difftime(end, start) / CLOCKS_PER_SEC);
     show_board(board, num_rows, num_cols);
 }
