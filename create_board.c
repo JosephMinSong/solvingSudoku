@@ -1,37 +1,35 @@
 #include <stdio.h>
 
-int num_rows = 9;
-int num_col = 9;
-int board[9][9];
+void create_board(int board[9][9], int num_rows, int num_cols)
+{
 
-
-void create_board() {
-    
     printf("Create the starting board by filling in the board.\n");
+    printf("Type the entire row and press enter to finalize the row\n");
     printf("Put '0' where the cell should be empty to be filled by user in the game\n");
 
-    for(int i = 0; i < num_rows; i++) {
-        for(int j = 0; j < num_col; j++) {
-            scanf("%d", &board[i][j]);
+    for (int i = 0; i < num_rows; ++i)
+    {
+        char row[11];
+        fgets(row, 11, stdin);
+        row[10] = '\0';
+        for (int j = 0; j < num_cols; ++j)
+        {
+            board[i][j] = row[j] - '0';
         }
     }
 }
 
+void show_board(int board[9][9], int num_rows, int num_cols)
+{
 
-void show_board() {
-    
-    printf("The board you have created looks like this:\n");
+    printf("Here is the board:\n");
 
-    for(int i = 0; i < num_rows; i++) {
-        for(int j = 0; j < num_col; j++) {
+    for (int i = 0; i < num_rows; i++)
+    {
+        for (int j = 0; j < num_cols; j++)
+        {
             printf("%d  ", board[i][j]);
         }
         printf("\n");
     }
-}
-
-int main() {
-    create_board();
-    show_board();
-    return 0;
 }
